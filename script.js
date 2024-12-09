@@ -2,7 +2,7 @@ const questions = [
   { question: "Người sáng lập triều đại nhà Nguyễn là ai?", answers: ["Nguyễn Huệ", "Nguyễn Ánh", "Nguyễn Nhạc", "Gia Long"], correct: 3, reward: 10 },
   { question: "Ai là người lãnh đạo cuộc khởi nghĩa Hai Bà Trưng?", answers: ["Trưng Trắc", "Trưng Nhị", "Lý Thường Kiệt", "Ngô Quyền"], correct: 0, reward: 10 },
   { question: "Chiến thắng Bạch Đằng năm 1288 diễn ra dưới sự chỉ huy của ai?", answers: ["Lý Thường Kiệt", "Trần Hưng Đạo", "Nguyễn Huệ", "Ngô Quyền"], correct: 1, reward: 10 },
-  { question: "Đồng bằng sông Cửu Long nằm ở miền nào của Việt Nam?", answers: ["Miền Bắc", "Miền Trung", "Miền Nam", "Miền Tây"], correct: 3, reward: 20 },
+  { question: "Đồng bằng sông Cửu Long nằm ở miền nào của Việt Nam?", answers: ["Miền Bắc", "Miền Trung", "Miền Nam", "Miền Tây"], correct: 2, reward: 20 },
   { question: "Núi Ba Na nằm ở tỉnh nào của Việt Nam?", answers: ["Lâm Đồng", "Đà Nẵng", "Quảng Nam", "Bình Định"], correct: 1, reward: 20 },
   { question: "Thủ đô của Thụy Sĩ là gì?", answers: ["Geneva", "Zurich", "Bern", "Basel"], correct: 2, reward: 20 },
   { question: "Nguyên tố nào có cấu hình electron [Ne] 3s² 3p³?", answers: ["Phospho", "Nitơ", "Magi", "Silic"], correct: 0, reward: 30 },
@@ -27,7 +27,9 @@ let currentQuestionIndex = 0; // Chỉ số câu hỏi hiện tại
 let totalScore = 0;
 let gameEnded = false; // Đảm bảo trò chơi chỉ kết thúc khi hoàn thành tất cả các câu hỏi
 let countdown; // Biến để lưu trạng thái đếm ngược
-let timeLeft = 90; // Thời gian chơi xuyên suốt (90 giây)
+let timeLeft = 60; // Thời gian chơi xuyên suốt (90 giây)
+let answeredCorrectly = true; // Biến theo dõi xem người chơi đã trả lời đúng tất cả các câu hỏi chưa
+
 function startTimer() {
   const timerElement = document.getElementById("timer");
   countdown = setInterval(() => {
@@ -36,20 +38,36 @@ function startTimer() {
 
     if (timeLeft <= 0) {
       clearInterval(countdown);
-      showGameOverScreen(); // Kết thúc trò chơi khi hết thời gian
+      showGameOverScreen("Hết thời gian! Bạn chưa trả lời hết câu hỏi."); // Hiển thị thông báo thất bại khi hết thời gian
     }
   }, 1000); // Cập nhật mỗi giây
 }
-function showGameOverScreen() {
-  clearInterval(countdown); // Dừng đếm ngược nếu chưa dừng
+
+function showVictoryScreen() {
+  clearInterval(countdown); // Dừng đồng hồ khi chiến thắng
+
   document.getElementById("question-box").innerHTML = ` 
-    <h2>Hết thời gian! Tổng điểm của bạn là ${totalScore}.</h2>
-    <p>Chúc bạn Giáng Sinh vui vẻ! 🎄</p>
+    <h2>Chúc mừng! Bạn đã trả lời đúng tất cả câu hỏi.</h2>
+    <p>Tổng điểm của bạn là ${totalScore}.</p>
+    <img src="https://steamuserimages-a.akamaihd.net/ugc/2273816816172712824/40B04E1601B85B8A190E7FE3FE269FA43BF59892/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false" alt="Chúc mừng bạn!">
+  `;
+  document.getElementById("next-btn").style.display = "none"; // Ẩn nút Tiếp tục khi game over
+  gameEnded = true; // Đánh dấu trò chơi đã kết thúc
+  showConfetti(); // Hiển thị hiệu ứng pháo giấy khi chiến thắng
+}
+
+function showGameOverScreen(message) {
+  clearInterval(countdown); // Dừng đồng hồ khi game over
+
+  document.getElementById("question-box").innerHTML = ` 
+    <h2>Thất bại! Tổng điểm của bạn là ${totalScore}.</h2>
+    <p>${message}</p>
     <img src="https://media.tenor.com/EkhMuwhvi-AAAAAM/dog-running.gif" alt="Giáng Sinh">
   `;
   document.getElementById("next-btn").style.display = "none"; // Ẩn nút Tiếp tục khi game over
   gameEnded = true; // Đánh dấu trò chơi đã kết thúc
 }
+
 function loadQuestion() {
   if (gameEnded) return; // Nếu trò chơi đã kết thúc thì không làm gì thêm
 
@@ -58,7 +76,7 @@ function loadQuestion() {
 
   // Nếu hết câu hỏi ở mốc reward hiện tại thì kết thúc trò chơi
   if (questionsWithCurrentReward.length === 0) {
-    showGameOverScreen();
+    showVictoryScreen(); // Người chơi đã trả lời hết câu hỏi và đúng tất cả
     return;
   }
 
@@ -95,9 +113,10 @@ function checkAnswer(selectedIndex) {
     document.getElementById("feedback").style.color = "#28a745";
     document.getElementById("next-btn").style.display = "inline-block"; // Hiển thị nút "Tiếp tục"
   } else {
+    answeredCorrectly = false; // Nếu trả lời sai, đánh dấu là sai
     document.getElementById("feedback").textContent = `Sai rồi! Tổng điểm của bạn là ${totalScore}.`;
     document.getElementById("feedback").style.color = "#dc3545";
-    showGameOverScreen(); // Nếu sai thì dừng lại và không tiếp tục
+    showGameOverScreen("Bạn đã trả lời sai câu hỏi. Hãy thử lại.");
   }
 }
 
@@ -109,16 +128,6 @@ function nextQuestion() {
 
   loadQuestion(); // Load câu hỏi mới
   document.getElementById("next-btn").style.display = "none"; // Ẩn nút Tiếp tục sau khi câu hỏi mới
-}
-
-function showGameOverScreen() {
-  document.getElementById("question-box").innerHTML = ` 
-    <h2>Thất bại! Tổng điểm của bạn là ${totalScore}.</h2>
-    <p>Chúc bạn Giáng Sinh vui vẻ! 🎄</p>
-    <img src="https://media.tenor.com/EkhMuwhvi-AAAAAM/dog-running.gif" alt="Giáng Sinh">
-  `;
-  document.getElementById("next-btn").style.display = "none"; // Ẩn nút Tiếp tục khi game over
-  gameEnded = true; // Đánh dấu trò chơi đã kết thúc
 }
 
 function showConfetti() {
@@ -189,3 +198,5 @@ function startGame() {
 }
 
 startGame(); // Khởi chạy trò chơi
+
+
