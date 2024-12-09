@@ -1,0 +1,103 @@
+/* Giao diện Noel */
+body {
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  background: linear-gradient(to bottom, #00416A, #E4E5E6);
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  color: #ecf0f1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Đảm bảo toàn bộ trang luôn chiếm hết chiều cao */
+}
+
+.game-container {
+  background-color: #2c3e50;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  max-width: 600px;
+  margin: 50px auto;
+  flex: 1; /* Chiếm khoảng trống giữa header và footer */
+}
+
+h1 {
+  font-size: 34px;
+  color: #f1c40f;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#question-box {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #34495e;
+  color: #ecf0f1;
+}
+
+#question {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.answer-btn {
+  background-color: #e74c3c;
+  color: #ecf0f1;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.answer-btn:hover {
+  background-color: #c0392b;
+}
+
+#feedback {
+  font-size: 20px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+#next-btn {
+  display: none;
+  background-color: #2A9D8F;
+  color: #ecf0f1;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#next-btn:hover {
+  background-color: #21867A;
+}
+
+/* Footer luôn nằm dưới */
+footer {
+  background-color: #003366;
+  color: #FFD700;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Logo căn góc trên trái */
+.logo-container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.logo-container img {
+  max-width: 100px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
