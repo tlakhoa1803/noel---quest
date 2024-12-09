@@ -2,7 +2,7 @@ const questions = [
   { question: "Người sáng lập triều đại nhà Nguyễn là ai?", answers: ["Nguyễn Huệ", "Nguyễn Ánh", "Nguyễn Nhạc", "Gia Long"], correct: 3, reward: 10 },
   { question: "Ai là người lãnh đạo cuộc khởi nghĩa Hai Bà Trưng?", answers: ["Trưng Trắc", "Trưng Nhị", "Lý Thường Kiệt", "Ngô Quyền"], correct: 0, reward: 10 },
   { question: "Chiến thắng Bạch Đằng năm 1288 diễn ra dưới sự chỉ huy của ai?", answers: ["Lý Thường Kiệt", "Trần Hưng Đạo", "Nguyễn Huệ", "Ngô Quyền"], correct: 1, reward: 10 },
-  { question: "Đồng bằng sông Cửu Long nằm ở miền nào của Việt Nam?", answers: ["Miền Bắc", "Miền Trung", "Miền Nam", "Miền Tây"], correct: 2, reward: 20 },
+  { question: "Đồng bằng sông Cửu Long nằm ở miền nào của Việt Nam?", answers: ["Miền Bắc", "Miền Trung", "Miền Nam", "Miền Tây"], correct: 3, reward: 20 },
   { question: "Núi Ba Na nằm ở tỉnh nào của Việt Nam?", answers: ["Lâm Đồng", "Đà Nẵng", "Quảng Nam", "Bình Định"], correct: 1, reward: 20 },
   { question: "Thủ đô của Thụy Sĩ là gì?", answers: ["Geneva", "Zurich", "Bern", "Basel"], correct: 2, reward: 20 },
   { question: "Nguyên tố nào có cấu hình electron [Ne] 3s² 3p³?", answers: ["Phospho", "Nitơ", "Magi", "Silic"], correct: 0, reward: 30 },
@@ -27,7 +27,7 @@ let currentQuestionIndex = 0; // Chỉ số câu hỏi hiện tại
 let totalScore = 0;
 let gameEnded = false; // Đảm bảo trò chơi chỉ kết thúc khi hoàn thành tất cả các câu hỏi
 let countdown; // Biến để lưu trạng thái đếm ngược
-let timeLeft = 60; // Thời gian chơi xuyên suốt (90 giây)
+let timeLeft = 60; 
 let answeredCorrectly = true; // Biến theo dõi xem người chơi đã trả lời đúng tất cả các câu hỏi chưa
 
 function startTimer() {
